@@ -1,0 +1,17 @@
+* How to start
+when building the project create a build directory and a valid compile_commands.json file
+#+BEGIN_SRC
+# create the build directory
+mkdir build
+
+# initialize the project by getting the dependencies and structure provided by CMakePresets.json
+cmake --preset=default
+# build the project
+cmake --build build
+#+END_SRC
+
+Then create a symlink from the build folder to the root.
+This is so that the Language server protocol (LSP) knows about your fetched libs
+#+BEGIN_SRC
+ln -s build/compile_commands.json .
+#+END_SRC

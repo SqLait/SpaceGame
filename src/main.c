@@ -17,7 +17,7 @@ void draw(Player *player) {
 int main(void) {
     InitWindow(G_HEIGHT, G_WIDTH, "SpaceGame");
     SetTargetFPS(60);
-    Image img = LoadImage("../assets/Shippy.png");
+    Image img = LoadImage("assets/Shippy.png");
     ImageFlipVertical(&img);
 
     Player player = {

@@ -3,12 +3,12 @@
 #include <raylib.h>
 #include "types.h"
 
-typedef struct {
+typedef struct Object {
     Texture2D texture; 
     Vector2 position;
 } Object;
 
-typedef struct {
+typedef struct Player {
     uint health;
     Object base;
 } Player;

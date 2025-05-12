@@ -29,3 +29,12 @@ target_link_libraries(main raylib)
 # Also explicitly add raylib include directories for clangd
 target_include_directories(main PRIVATE ${raylib_SOURCE_DIR}/src)
 
+# Set runtime output directory (optional, makes things predictable)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Copy the assets folder to the runtime output directory
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/assets
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
+)
