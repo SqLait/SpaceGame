@@ -11,14 +11,15 @@ file(GLOB SOURCES "src/*.c")
 
 # Use FetchContent to get raylib
 include(FetchContent)
+message(STATUS "Fetching raylib from GitHub...")
 FetchContent_Declare(
     raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG        5.5
 )
-
 # Let raylib build as a subproject
 FetchContent_MakeAvailable(raylib)
+message(STATUS "raylib has been fetched and made available.")
 
 # Create your game executable
 add_executable(main ${SOURCES})
