@@ -4,7 +4,7 @@
 #include "types.h"
 
 typedef struct Object {
-    Texture2D texture; 
+    u8 texture_id; 
     Vector2 position;
 } Object;
 

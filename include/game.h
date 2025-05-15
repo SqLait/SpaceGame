@@ -13,4 +13,8 @@ enum GameState : u8 {
 typedef struct {
     enum GameState gameState;   
 } Game;
+
+void load_assets();
+
+extern Texture2D textures[2];
 #endif
