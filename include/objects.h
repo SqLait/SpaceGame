@@ -6,12 +6,8 @@
 typedef struct Object {
     u8 texture_id; 
     Vector2 position;
+    Rectangle rect;
 } Object;
-
-typedef struct Player {
-    uint health;
-    Object base;
-} Player;
 
 void MoveObject(Object *);
 #endif
