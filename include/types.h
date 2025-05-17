@@ -5,25 +5,8 @@
 #include <limits.h>   /* IWYU pragma: export */
 #include <string.h>   /* IWYU pragma: export */
 
-// allow for forward decls of DYNLIST types
-#ifndef DYNLIST
-    #define DYNLIST(_T) typeof((_T*)(NULL))
-#endif // ifndef DYNLIST
-
-// util/map.h
-typedef struct map_entry map_entry_t;
-typedef struct map map_t;
-
-// util/range.h
-typedef struct range range_t;
-
-// length of compile time known array
 #define ARRLEN(_arr) ((sizeof((_arr))) / ((sizeof((_arr)[0]))))
 
-// get index of pointer in array
-#define ARR_PTR_INDEX(_arr, _p) ((int) ((_p) - &(_arr)[0]))
-
-// basic fixed-width numeric types
 typedef uint8_t  u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -107,18 +90,3 @@ typedef struct allocator allocator_t;
 
 // util/any.h
 typedef struct any any_t;
-
-// types which need to be lifted out of their respective source files :)
-
-// see util/kvstore.h
-// fancy map wrapper for map of name -> any with helper functions and easy
-// serialization/deserialization
-typedef struct kvstore {
-    // map is heap-allocated so that empty kvstores are only 2 * sizeof(void*)'
-
-    // allocator
-    allocator_t *allocator;
-
-    // char *name -> any_t
-    map_t *map;
-} kvstore_t;

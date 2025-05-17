@@ -10,4 +10,6 @@ typedef struct Object {
 } Object;
 
 void MoveObject(Object *);
+void UpdateRect(Rectangle *, Vector2 *, Texture2D *);
+Object CreateNewBullet(Object *, Texture2D *);
 #endif
