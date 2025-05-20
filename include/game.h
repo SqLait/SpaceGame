@@ -15,13 +15,9 @@ typedef struct {
     enum GameState game_state;   
     bool update_game;
     Object player;
-    Object enemies[15];
-    Object bullets[10];
+    Object* enemies;
+    Object* bullets;
 } Game;
-
-typedef struct {
-    void *buffer;
-} MemPool;
 
 void load_assets(Texture2D *);
 #endif

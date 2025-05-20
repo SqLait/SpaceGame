@@ -1,8 +1,8 @@
 #include <raylib.h>
-#include <stdio.h>
 #include "objects.h"
 #include "types.h"
 #include "game.h"
+#include "alloc.h"
 
 Texture2D textures[2];
 Game game = {
@@ -32,7 +32,6 @@ int main(void) {
     InitWindow(G_HEIGHT, G_WIDTH, "SpaceGame");
     SetTargetFPS(60);
     load_assets(textures);
-    printf("length: %lu\n", ARRLEN(game.bullets));
 
     while (!WindowShouldClose()) {
         update();
