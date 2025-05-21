@@ -1,12 +1,13 @@
 #include "objects.h"
+#include "alloc.h"
 #include "raylib.h"
+#include "debug.h"
 
-void MoveObject(Object *obj) {
+void PlayerInput(Object *obj) {
     const float SPEED = 8;
+
     if (IsKeyDown(KEY_D)) obj->position.x += SPEED;
     if (IsKeyDown(KEY_A)) obj->position.x -= SPEED;
-    if (IsKeyDown(KEY_W)) obj->position.y -= SPEED;
-    if (IsKeyDown(KEY_S)) obj->position.y += SPEED;
 }
 
 void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
@@ -18,15 +19,24 @@ void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
     };
 }
 
-Object CreateNewBullet(Object *obj, Texture2D *texture) {
-    return (Object){
-        .position = obj->position,
-        .texture_id = 1,
-        .rect = (Rectangle){
-            .height = texture->height,
-            .width = texture->width,
-            .x = (int)obj->position.x,
-            .y = (int)obj->position.y
-        }
+Object *CreateNewBullet(Object *player, Texture2D *texture, MemoryPool *pool) {
+    Object *bullet = (Object *)pool_alloc(pool);
+    ASSERT(bullet != NULL);
+
+    bullet->position = player->position;
+    bullet->texture_id = 1;
+    bullet->rect = (Rectangle){
+        .height = texture->height,
+        .width = texture->width,
+        .x = bullet->position.x,
+        .y = bullet->position.y,
     };
+
+    return bullet;
+}
+
+void MoveBullet(Object *bullet, Texture2D *texture) {
+    ASSERT(bullet != NULL);
+    bullet->position.y -= 4;
+    UpdateRect(&bullet->rect, &bullet->position, texture);
 }

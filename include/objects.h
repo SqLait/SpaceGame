@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <raylib.h>
+#include "alloc.h"
 #include "types.h"
 
 typedef struct Object {
@@ -9,7 +10,8 @@ typedef struct Object {
     Rectangle rect;
 } Object;
 
-void MoveObject(Object *);
+void PlayerInput(Object *);
 void UpdateRect(Rectangle *, Vector2 *, Texture2D *);
-Object CreateNewBullet(Object *, Texture2D *);
+Object *CreateNewBullet(Object *, Texture2D *, MemoryPool *);
+void MoveBullet(Object *, Texture2D *);
 #endif

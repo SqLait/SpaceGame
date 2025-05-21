@@ -21,6 +21,7 @@ typedef float f32;
 typedef double f64;
 typedef unsigned int uint;
 typedef unsigned char byte;
+typedef size_t size;
 
 typedef u64 hash_t;
 

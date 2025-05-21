@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(SpaceShooter C)
 
 # Set C standard
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Include headers from your own project

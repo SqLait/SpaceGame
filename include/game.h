@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include <raylib.h>
+#include "alloc.h"
 #include "types.h"
 #include "objects.h"
 #define G_WIDTH 1080
@@ -15,8 +16,8 @@ typedef struct {
     enum GameState game_state;   
     bool update_game;
     Object player;
-    Object* enemies;
-    Object* bullets;
+    Object *enemies;
+    Object *bullets;
 } Game;
 
 void load_assets(Texture2D *);

@@ -8,10 +8,12 @@ typedef struct Block {
 
 typedef struct {
     Block *freeList;
+    size block_size;
     byte pool[POOL_SIZE];
 } MemoryPool;
 
-void init_memorypool(MemoryPool *);
+void init_pool(MemoryPool *, size);
 void *pool_alloc(MemoryPool *);
 void pool_free(MemoryPool *, void *);
+void pool_clear(MemoryPool *);
 #endif

@@ -1,12 +1,17 @@
 #include "alloc.h"
-#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void init_memorypool(MemoryPool *pool) {
+void init_pool(MemoryPool *pool, size block_size) {
+    pool->block_size = (block_size < sizeof(Block *)) ? sizeof(Block *) : block_size;
     pool->freeList = (Block *)pool->pool;
+
+    size num_blocks = POOL_SIZE / pool->block_size;
     Block *current = pool->freeList;
 
-    for (int i = 0; i < (POOL_SIZE / sizeof(Block)) - 1; i++) {
-        current->next = (Block *)((unsigned char *)current + sizeof(Block));
+    for (size i = 0; i < num_blocks - 1; i++) {
+        current->next = (Block *)((byte *)current + pool->block_size);
         current = current->next;
     }
 
@@ -14,7 +19,10 @@ void init_memorypool(MemoryPool *pool) {
 }
 
 void *pool_alloc(MemoryPool *pool) {
-    assert(pool->freeList == NULL);
+    if (pool->freeList == NULL) {
+        printf("WARNING: Pool exhaust triggered\n");
+        return 0;
+    }
 
     Block *block = pool->freeList;
     pool->freeList = block->next;
@@ -26,4 +34,17 @@ void pool_free(MemoryPool *pool, void *ptr) {
     Block *block = (Block *)ptr;
     block->next = pool->freeList;
     pool->freeList = block;
+}
+
+void pool_clear(MemoryPool *pool) {
+    pool->freeList = (Block *)pool->pool;
+    size_t num_blocks = POOL_SIZE / pool->block_size;
+    Block *current = pool->freeList;
+
+    for (size_t i = 0; i < num_blocks - 1; i++) {
+        current->next = (Block *)((byte *)current + pool->block_size);
+        current = current->next;
+    }
+
+    current->next = NULL;
 }
