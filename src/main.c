@@ -21,11 +21,12 @@ Object player = {
 void update() {
     PlayerInput(&player);
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
-    if (IsKeyDown(KEY_SPACE)) {
+    if (IsKeyDown(KEY_SPACE) && bullet == NULL) {
         bullet = CreateNewBullet(&player, &textures[1], &pool);
     }
     if (bullet != NULL) {
         MoveBullet(bullet, &textures[1]);
+        CheckBulletOutOfView(&bullet, &pool);
     }
 }
 

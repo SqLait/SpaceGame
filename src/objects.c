@@ -36,7 +36,13 @@ Object *CreateNewBullet(Object *player, Texture2D *texture, MemoryPool *pool) {
 }
 
 void MoveBullet(Object *bullet, Texture2D *texture) {
-    ASSERT(bullet != NULL);
     bullet->position.y -= 4;
     UpdateRect(&bullet->rect, &bullet->position, texture);
+}
+
+void CheckBulletOutOfView(Object **bullet, MemoryPool *pool) {
+    if ((*bullet)->position.y < -10) {
+        pool_free(pool, bullet);
+        *bullet = NULL;
+    }
 }

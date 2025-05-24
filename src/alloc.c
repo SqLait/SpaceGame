@@ -1,4 +1,6 @@
 #include "alloc.h"
+#include "debug.h"
+#include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,10 +21,7 @@ void init_pool(MemoryPool *pool, size block_size) {
 }
 
 void *pool_alloc(MemoryPool *pool) {
-    if (pool->freeList == NULL) {
-        printf("WARNING: Pool exhaust triggered\n");
-        return 0;
-    }
+    ASSERT_MSG(pool->freeList != NULL, "ERROR: Pool exhaust");
 
     Block *block = pool->freeList;
     pool->freeList = block->next;
