@@ -12,7 +12,7 @@ void PrintDList(DNode *head) {
 
 DNode *dlist_create_node(int value) {
     DNode *result = malloc(sizeof(DNode));
-    result->value = value;
+    //result->value = value;
     result->prev = NULL;
     result->next = NULL;
 

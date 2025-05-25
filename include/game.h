@@ -20,5 +20,7 @@ typedef struct {
     Object *bullets;
 } Game;
 
-void load_assets(Texture2D *);
+void init();
+void update();
+void draw();
 #endif

@@ -1,10 +1,12 @@
 #ifndef DLIST_H
 #define DLIST_H
-#define LIST_HEAD_INIT(name) { &(name), &(name) } 
+#include "objects.h"
 
 typedef struct DNode {
+    int value;
     struct DNode* next, * prev;
 } DNode;
+
 void PrintDList(DNode *);
 DNode *dlist_create_node(int);
 void dlist_insert_head(DNode **, DNode *);

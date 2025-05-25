@@ -3,7 +3,6 @@
 #include <raylib.h>
 #include "alloc.h"
 #include "types.h"
-#include "dlist.h"
 
 typedef struct Object {
     u8 texture_id; 
@@ -15,7 +14,6 @@ typedef struct Bullet {
     u8 texture_id; 
     Vector2 position;
     Rectangle rect;
-    DNode list;
 } Bullet;
 
 void PlayerInput(Object *);
