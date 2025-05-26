@@ -2,7 +2,7 @@
 #include "game.h"
 
 int main(void) {
-    InitWindow(G_HEIGHT, G_WIDTH, "SpaceGame");
+    InitWindow(G_WIDTH, G_HEIGHT, "SpaceGame");
     SetTargetFPS(60);
     init();
 
@@ -12,6 +12,6 @@ int main(void) {
     }
 
     CloseWindow();
-
     return 0;
 }
+

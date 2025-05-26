@@ -1,6 +1,7 @@
 #include "game.h"
 #include "raylib.h"
 #include "poolalloc.h"
+#include "debug.h"
 
 Texture2D textures[2];
 Pool* pool;
@@ -18,21 +19,18 @@ Object player = {
 
 void init() {
     Image ship = LoadImage("assets/Shippy.png");
-    if (ship.data == NULL) {
-        TraceLog(LOG_ERROR, "Failed to load 'Shippy.png'");
-        return;
-    }
+    ASSERT_MSG(ship.data != NULL, "Failed to load 'Shippy.png'");
+
     ImageFlipVertical(&ship);
     textures[0] = LoadTextureFromImage(ship);
     UnloadImage(ship);
 
     Image star = LoadImage("assets/Star.png");
-    if (star.data == NULL) {
-        TraceLog(LOG_ERROR, "Failed to load 'Star.png'");
-        return;
-    }
+    ASSERT_MSG(star.data != NULL, "Failed to load 'Star.png'");
+
     textures[1] = LoadTextureFromImage(star);
     UnloadImage(star);
+
     pool = pool_new(6);
 }
 
