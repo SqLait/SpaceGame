@@ -22,7 +22,6 @@ void init_pool(MemoryPool *pool, size block_size) {
 
 void *pool_alloc(MemoryPool *pool) {
     ASSERT_MSG(pool->freeList != NULL, "ERROR: Pool exhaust");
-
     Block *block = pool->freeList;
     pool->freeList = block->next;
 

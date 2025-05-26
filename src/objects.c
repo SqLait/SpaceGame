@@ -1,5 +1,5 @@
 #include "objects.h"
-#include "alloc.h"
+#include "poolalloc.h"
 #include "raylib.h"
 #include "debug.h"
 
@@ -19,7 +19,7 @@ void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
     };
 }
 
-Object *CreateNewBullet(Object *player, Texture2D *texture, MemoryPool *pool) {
+Object *CreateNewBullet(Object *player, Texture2D *texture, Pool *pool) {
     Object *bullet = (Object *)pool_alloc(pool);
     ASSERT(bullet != NULL);
 
@@ -40,7 +40,7 @@ void MoveBullet(Object *bullet, Texture2D *texture) {
     UpdateRect(&bullet->rect, &bullet->position, texture);
 }
 
-void CheckBulletOutOfView(Object **bullet, MemoryPool *pool) {
+void CheckBulletOutOfView(Object **bullet, Pool *pool) {
     if ((*bullet)->position.y < -10) {
         pool_free(pool, bullet);
         *bullet = NULL;

@@ -1,9 +1,9 @@
 #include "game.h"
 #include "raylib.h"
-#include <stdio.h>
+#include "poolalloc.h"
 
 Texture2D textures[2];
-MemoryPool pool;
+Pool* pool;
 Object* bullet = NULL;
 
 Game game = {
@@ -33,18 +33,18 @@ void init() {
     }
     textures[1] = LoadTextureFromImage(star);
     UnloadImage(star);
-    init_pool(&pool, sizeof(Object));
+    pool = pool_new(6);
 }
 
 void update() {
     PlayerInput(&player);
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
     if (IsKeyDown(KEY_SPACE) && bullet == NULL) {
-        bullet = CreateNewBullet(&player, &textures[1], &pool);
+        bullet = CreateNewBullet(&player, &textures[1], pool);
     }
     if (bullet != NULL) {
         MoveBullet(bullet, &textures[1]);
-        CheckBulletOutOfView(&bullet, &pool);
+        CheckBulletOutOfView(&bullet, pool);
     }
 }
 
