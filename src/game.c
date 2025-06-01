@@ -1,11 +1,14 @@
 #include "game.h"
+#include "objects.h"
 #include "raylib.h"
 #include "poolalloc.h"
 #include "debug.h"
+#include "dynlist.h"
 
 Texture2D textures[2];
 Pool* pool;
 Object* bullet = NULL;
+Object* bullets = NULL;
 
 Game game = {
     .game_state = RUNNING,
@@ -38,7 +41,8 @@ void update() {
     PlayerInput(&player);
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
     if (IsKeyDown(KEY_SPACE) && bullet == NULL) {
-        bullet = CreateNewBullet(&player, &textures[1], pool);
+        Vector2 center = GetOrigin(&player.rect, &player.position);
+        bullet = CreateNewBullet(&center, &textures[1], pool);
     }
     if (bullet != NULL) {
         MoveBullet(bullet, &textures[1]);

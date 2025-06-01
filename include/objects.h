@@ -18,7 +18,8 @@ typedef struct Bullet {
 
 void PlayerInput(Object *);
 void UpdateRect(Rectangle *, Vector2 *, Texture2D *);
-Object *CreateNewBullet(Object *, Texture2D *, Pool *);
+Object *CreateNewBullet(Vector2 *, Texture2D *, Pool *);
 void MoveBullet(Object *, Texture2D *);
 void CheckBulletOutOfView(Object **, Pool *);
+Vector2 GetOrigin(Rectangle *, Vector2 *);
 #endif

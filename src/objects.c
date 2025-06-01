@@ -19,11 +19,11 @@ void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
     };
 }
 
-Object *CreateNewBullet(Object *player, Texture2D *texture, Pool *pool) {
+Object *CreateNewBullet(Vector2 *position, Texture2D *texture, Pool *pool) {
     Object *bullet = (Object *)pool_alloc(pool);
     ASSERT(bullet != NULL);
 
-    bullet->position = player->position;
+    bullet->position = *position;
     bullet->texture_id = 1;
     bullet->rect = (Rectangle){
         .height = texture->height,
@@ -45,4 +45,11 @@ void CheckBulletOutOfView(Object **bullet, Pool *pool) {
         pool_free(pool, bullet);
         *bullet = NULL;
     }
+}
+
+Vector2 GetOrigin(Rectangle *rect, Vector2 *vec) {
+    return (Vector2){
+        .x = vec->x + (rect->width * 0.5f),
+        .y = vec->y + (rect->height * 0.5f)
+    };
 }
