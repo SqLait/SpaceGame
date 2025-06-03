@@ -1,10 +1,20 @@
-#ifndef POOL_ALLOC_H
-#define POOL_ALLOC_H
+#ifndef ALLOC_H
+#define ALLOC_H
 
 #include <types.h>
 #include <debug.h>
+#include <stdio.h>
 
 #define CHUNK_SZ 64
+typedef struct Allocator Allocator;
+typedef void *(*alloc_fn)(Allocator*, size n);
+typedef void (*free_fn)(Allocator*, void *p);
+
+struct Allocator {
+    alloc_fn malloc;
+    free_fn free;
+};
+
 typedef union Chunk Chunk;
 union Chunk {
     Chunk *next;

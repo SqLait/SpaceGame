@@ -1,9 +1,8 @@
 #include "game.h"
 #include "objects.h"
 #include "raylib.h"
-#include "poolalloc.h"
+#include "alloc.h"
 #include "debug.h"
-#include "dynlist.h"
 
 Texture2D textures[2];
 Pool* pool;

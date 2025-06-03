@@ -1,4 +1,5 @@
-#include "poolalloc.h"
+#include "alloc.h"
+#include "types.h"
 
 Pool *pool_new(size pool_sz) {
     Pool* pool = malloc(sizeof(Pool));
@@ -84,4 +85,19 @@ void pool_close(Pool* pool) {
         array_start = next;
     }
     free(pool);
+}
+
+
+static void *_c_allocator_alloc(Allocator *a, size n) {
+    return malloc(n);
+}
+
+static void _c_allocator_free(Allocator *a, void *p) {
+    free(p);
+    p = NULL;
+}
+
+void c_allocator_init(Allocator *a) {
+    a->free = _c_allocator_free;
+    a->malloc = _c_allocator_alloc;
 }

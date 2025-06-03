@@ -90,9 +90,3 @@ typedef vec4s v4;
 typedef mat3s m3;
 typedef mat4s m4;
 typedef mat2s m2;
-
-// util/alloc.h
-typedef struct allocator allocator_t;
-
-// util/any.h
-typedef struct any any_t;

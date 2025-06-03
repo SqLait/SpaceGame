@@ -74,18 +74,24 @@ void _dynlist_pop(void *arr, void *dest) {
 
 void _dynlist_remove(void *arr, int index) {
     size len = dynlist_length(arr);
-    if (index > len - 1 || index < 0) {
-        printf("dynlist operation canceled: trying to access outside the array");
+    size stride = dynlist_stride(arr);
+
+    ASSERT_MSG(index >= 0 && index < len,
+               "dynlist operation canceled: index out of bounds");
+
+    if (index == len - 1) {
+        char *elem_ptr = (char *)arr + index * stride;
+        dynlist_pop(arr, elem_ptr);
         return;
     }
 
-    void *item = &arr[index];
-    // set the item on the index to NULL
-    // Remove the entry out of the list
-    for (int i = index; i < len; i++) {
-        // remove the entry specified
-        // Loop over the list to change the pointers to the new order
-    }
-    
-    // Set the size to size - 1
+    char *base = (char *)arr;
+    char *target = base + index * stride;
+    char *next = target + stride;
+
+    // Move the memory block left by one element
+    memmove(target, next, (len - index - 1) * stride);
+
+    // Decrease the length
+    _dynlist_field_set(arr, LENGTH, len - 1);
 }
