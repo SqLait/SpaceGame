@@ -14,12 +14,11 @@ enum GameState : u8 {
 typedef struct {
     enum GameState game_state;   
     bool update_game;
-    Object player;
-    Object *enemies;
-    Object *bullets;
+    f32 delta_time;
 } Game;
 
 void init();
 void update();
 void draw();
+void deinit();
 #endif

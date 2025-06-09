@@ -97,7 +97,8 @@ void *_dynlist_push(void *arr, void *xptr) {
     if (dynlist_length(arr) >= dynlist_capacity(arr))
         arr = _dynlist_resize(arr);
 
-    memcpy(arr + dynlist_length(arr) * dynlist_stride(arr), xptr, dynlist_stride(arr));
+    char *dst = (char *)arr + dynlist_length(arr) * dynlist_stride(arr);
+    memcpy(dst, xptr, dynlist_stride(arr));
     _dynlist_field_set(arr, LENGTH, dynlist_length(arr) + 1);
     return arr;
 }
