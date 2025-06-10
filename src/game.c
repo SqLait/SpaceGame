@@ -4,16 +4,15 @@
 #include "alloc.h"
 #include "debug.h"
 #include "dynlist.h"
-#include <time.h>
 
 Texture2D textures[2];
 Pool* pool;
 Object* bullets = NULL;
+f32 time_passed = 2;
 
 Game game = {
     .game_state = RUNNING,
     .update_game = true,
-    .delta_time = 0,
 };
 
 Object player = {
@@ -35,7 +34,7 @@ void init() {
     textures[1] = LoadTextureFromImage(star);
     UnloadImage(star);
 
-    pool = pool_new(6);
+    pool = pool_new(12);
     bullets = dynlist_init(Object);
 }
 
@@ -45,17 +44,28 @@ void deinit() {
 }
 
 void update() {
+    time_passed += GetFrameTime();
+
     PlayerInput(&player);
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
-    if (IsKeyDown(KEY_SPACE)) {
+
+    for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
+        Object bullet = bullets[i];
+
+        if (CheckBulletOutOfView(&bullets[i], pool)) {
+            dynlist_removeat(bullets, i);
+            pool_free(pool, &bullet);
+            continue; // Use continue to avoid use after free (UAF)
+        }
+
+        MoveBullet(&bullets[i], &textures[bullets[i].texture_id]);
+    }
+
+    if (IsKeyDown(KEY_SPACE) && time_passed > 2) {
+        time_passed = 0;
         Vector2 center = GetOrigin(&player.rect, &player.position);
         Object* bullet = CreateNewBullet(&center, &textures[1], pool);
         dynlist_push(bullets, *bullet);
-    }
-
-    for (size i = 0; i < dynlist_length(bullets); i++) {
-        MoveBullet(&bullets[i], &textures[bullets[i].texture_id]);
-        CheckBulletOutOfView(&bullets[i], pool);
     }
 }
 

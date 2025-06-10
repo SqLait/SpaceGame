@@ -21,6 +21,14 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raylib)
 message(STATUS "raylib has been fetched and made available.")
 
+if (MSVC)
+    # warning level 4
+    add_compile_options(/W4)
+else()
+    # additional warnings
+    add_compile_options(-std=c99 -Wall -Wextra -Wpedantic --debug)
+endif()
+
 # Create your game executable
 add_executable(main ${SOURCES})
 

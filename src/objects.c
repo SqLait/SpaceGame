@@ -14,13 +14,13 @@ void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
     *rect = (Rectangle){
         .height = texture->height,
         .width = texture->width,
-        .x = (int)position->x,
-        .y = (int)position->y
+        .x = (i32)position->x,
+        .y = (i32)position->y
     };
 }
 
 Object *CreateNewBullet(Vector2 *position, Texture2D *texture, Pool *pool) {
-    Object *bullet = (Object *)pool_alloc(pool);
+    Object *bullet = pool_alloc(pool);
     ASSERT(bullet != NULL);
 
     bullet->position = *position;
@@ -36,14 +36,12 @@ Object *CreateNewBullet(Vector2 *position, Texture2D *texture, Pool *pool) {
 }
 
 void MoveBullet(Object *bullet, Texture2D *texture) {
-    bullet->position.y -= 4;
+    bullet->position.y -= 6;
     UpdateRect(&bullet->rect, &bullet->position, texture);
 }
 
-void CheckBulletOutOfView(Object *bullet, Pool *pool) {
-    if (bullet->position.y < -10) {
-        pool_free(pool, bullet);
-    }
+bool CheckBulletOutOfView(Object *bullet, Pool *pool) {
+    return bullet->position.y < -10;
 }
 
 Vector2 GetOrigin(Rectangle *rect, Vector2 *vec) {

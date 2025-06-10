@@ -133,6 +133,22 @@ void _dynlist_removeat(void *arr, int index) {
     _dynlist_field_set(arr, LENGTH, len - 1);
 }
 
+void _dynlist_remove(void *arr, void *ptr) {
+    size len = dynlist_length(arr);
+    size stride = dynlist_stride(arr);
+    char *base = (char *)arr;
+
+    for (size i = 0; i < len; i++) {
+        char *current = base + i * stride;
+        if (current == (char *)ptr) {
+            _dynlist_removeat(arr, i);
+            return;
+        }
+    }
+
+    printf("dynlist_remove: pointer not found in list range\n");
+}
+
 /*Clears all the elements in the dynlist*/
 void _dynlist_clear(void *arr) {
     size len = dynlist_length(arr);
@@ -153,4 +169,4 @@ void dynlist_search(void *arr, size elem_size, void *ptr) {
         }
     }
 }
-#endif // dynlist
+#endif
