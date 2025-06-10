@@ -20,6 +20,6 @@ void PlayerInput(Object *);
 void UpdateRect(Rectangle *, Vector2 *, Texture2D *);
 Object *CreateNewBullet(Vector2 *, Texture2D *, Pool *);
 void MoveBullet(Object *, Texture2D *);
-bool CheckBulletOutOfView(Object *, Pool *);
+bool CheckBulletOutOfView(Object *);
 Vector2 GetOrigin(Rectangle *, Vector2 *);
 #endif

@@ -40,7 +40,7 @@ void MoveBullet(Object *bullet, Texture2D *texture) {
     UpdateRect(&bullet->rect, &bullet->position, texture);
 }
 
-bool CheckBulletOutOfView(Object *bullet, Pool *pool) {
+bool CheckBulletOutOfView(Object *bullet) {
     return bullet->position.y < -10;
 }
 

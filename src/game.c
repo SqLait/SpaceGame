@@ -52,7 +52,7 @@ void update() {
     for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
         Object bullet = bullets[i];
 
-        if (CheckBulletOutOfView(&bullets[i], pool)) {
+        if (CheckBulletOutOfView(&bullets[i])) {
             dynlist_removeat(bullets, i);
             pool_free(pool, &bullet);
             continue; // Use continue to avoid use after free (UAF)
@@ -61,7 +61,7 @@ void update() {
         MoveBullet(&bullets[i], &textures[bullets[i].texture_id]);
     }
 
-    if (IsKeyDown(KEY_SPACE) && time_passed > 2) {
+    if (IsKeyDown(KEY_SPACE) && time_passed >= 2) {
         time_passed = 0;
         Vector2 center = GetOrigin(&player.rect, &player.position);
         Object* bullet = CreateNewBullet(&center, &textures[1], pool);
@@ -79,4 +79,3 @@ void draw() {
     }
     EndDrawing();
 }
-
