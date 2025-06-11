@@ -55,16 +55,7 @@ void update() {
     PlayerInput(&player);
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
 
-    for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
-        if (CheckBulletOutOfView(bullets[i])) {
-            Object* bullet = bullets[i];
-            dynlist_removeat(bullets, i);
-            pool_free(pool, bullet);
-            continue; // Use continue to avoid use after free (UAF)
-        }
-
-        MoveBullet(bullets[i], &textures[bullets[i]->texture_id]);
-    }
+    update_bullets(bullets, &textures[1], pool);
 
     if (IsKeyDown(KEY_SPACE) && time_passed >= 2) {
         time_passed = 0;

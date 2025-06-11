@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include "alloc.h"
 #include "types.h"
+#include "dynlist.h"
 
 typedef struct Object {
     u8 texture_id; 
@@ -23,4 +24,5 @@ void MoveBullet(Object *, Texture2D *);
 bool CheckBulletOutOfView(Object *);
 Vector2 GetOrigin(Rectangle *, Vector2 *);
 i32 new_random(const u32);
+void update_bullets(Object **, Texture2D *, Pool *);
 #endif

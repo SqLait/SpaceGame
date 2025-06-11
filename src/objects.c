@@ -2,6 +2,7 @@
 #include "alloc.h"
 #include "raylib.h"
 #include "debug.h"
+#include "dynlist.h"
 
 void PlayerInput(Object *obj) {
     const float SPEED = 8;
@@ -53,4 +54,18 @@ Vector2 GetOrigin(Rectangle *rect, Vector2 *vec) {
 
 i32 new_random(const u32 MAX) {
     return rand() % MAX + 1;
+}
+
+/*Updates all bullets in a list, will check for certain conditions*/
+void update_bullets(Object **bullets, Texture2D *texture, Pool *pool) {
+    for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
+        if (CheckBulletOutOfView(bullets[i])) {
+            Object* bullet = bullets[i];
+            dynlist_removeat(bullets, i);
+            pool_free(pool, bullet);
+            continue; // Use continue to avoid use after free (UAF)
+        }
+
+        MoveBullet(bullets[i], texture);
+    }
 }
