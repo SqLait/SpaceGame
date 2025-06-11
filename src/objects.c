@@ -41,7 +41,7 @@ void MoveBullet(Object *bullet, Texture2D *texture) {
 }
 
 bool CheckBulletOutOfView(Object *bullet) {
-    return bullet->position.y < -10;
+    return bullet->position.y < -20;
 }
 
 Vector2 GetOrigin(Rectangle *rect, Vector2 *vec) {
@@ -49,4 +49,8 @@ Vector2 GetOrigin(Rectangle *rect, Vector2 *vec) {
         .x = vec->x + (rect->width * 0.5f),
         .y = vec->y + (rect->height * 0.5f)
     };
+}
+
+i32 new_random(const u32 MAX) {
+    return rand() % MAX + 1;
 }

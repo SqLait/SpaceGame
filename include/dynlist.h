@@ -67,7 +67,7 @@ void *_dynlist_create(size init_cap, size stride) {
 }
 
 void _dynlist_destroy(void *arr) {
-    free(arr - dynlist_FIELDS * sizeof(size));
+    free((char *)arr - dynlist_FIELDS * sizeof(size));
 }
 
 // Returns the dynlist's field which is specified by passing

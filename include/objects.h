@@ -22,4 +22,5 @@ Object *CreateNewBullet(Vector2 *, Texture2D *, Pool *);
 void MoveBullet(Object *, Texture2D *);
 bool CheckBulletOutOfView(Object *);
 Vector2 GetOrigin(Rectangle *, Vector2 *);
+i32 new_random(const u32);
 #endif

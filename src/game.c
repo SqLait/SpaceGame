@@ -4,10 +4,11 @@
 #include "alloc.h"
 #include "debug.h"
 #include "dynlist.h"
+#include "time.h"
 
 Texture2D textures[2];
 Pool* pool;
-Object* bullets = NULL;
+Object** bullets = NULL;
 f32 time_passed = 2;
 
 Game game = {
@@ -35,10 +36,15 @@ void init() {
     UnloadImage(star);
 
     pool = pool_new(12);
-    bullets = dynlist_init(Object);
+    bullets = dynlist_init(Object *);
+    srand(time(NULL));
 }
 
 void deinit() {
+    for (i8 i = 0; i < 20; i++) {
+        printf("Random number %d: %d\n", i + 1, new_random(100));
+    }
+
     pool_close(pool);
     dynlist_destroy(bullets);
 }
@@ -50,22 +56,21 @@ void update() {
     UpdateRect(&player.rect, &player.position, &textures[player.texture_id]);
 
     for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
-        Object bullet = bullets[i];
-
-        if (CheckBulletOutOfView(&bullets[i])) {
+        if (CheckBulletOutOfView(bullets[i])) {
+            Object* bullet = bullets[i];
             dynlist_removeat(bullets, i);
-            pool_free(pool, &bullet);
+            pool_free(pool, bullet);
             continue; // Use continue to avoid use after free (UAF)
         }
 
-        MoveBullet(&bullets[i], &textures[bullets[i].texture_id]);
+        MoveBullet(bullets[i], &textures[bullets[i]->texture_id]);
     }
 
     if (IsKeyDown(KEY_SPACE) && time_passed >= 2) {
         time_passed = 0;
         Vector2 center = GetOrigin(&player.rect, &player.position);
         Object* bullet = CreateNewBullet(&center, &textures[1], pool);
-        dynlist_push(bullets, *bullet);
+        dynlist_push(bullets, bullet);
     }
 }
 
@@ -75,7 +80,7 @@ void draw() {
     DrawTexture(textures[player.texture_id], player.position.x, player.position.y, WHITE);
     DrawRectangleLines(player.rect.x, player.rect.y, player.rect.width, player.rect.height, RED);
     for (size i = 0; i < dynlist_length(bullets); i++) {
-        DrawTexture(textures[bullets[i].texture_id], bullets[i].position.x, bullets[i].position.y, WHITE);
+        DrawTexture(textures[bullets[i]->texture_id], bullets[i]->position.x, bullets[i]->position.y, WHITE);
     }
     EndDrawing();
 }
