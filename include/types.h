@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <string.h>
 
+#define _ 0
 #define ARRLEN(_arr) ((sizeof((_arr))) / ((sizeof((_arr)[0]))))
 #define btos(x) ((x) ? "true" : "false")
 #define container_of(ptr, type, member) \

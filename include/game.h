@@ -14,8 +14,8 @@ typedef struct {
     bool update_game;
 } Game;
 
-void init();
-void update();
-void draw();
-void deinit();
+void init(void);
+void update(void);
+void draw(void);
+void deinit(void);
 #endif

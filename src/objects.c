@@ -20,8 +20,8 @@ void UpdateRect(Rectangle *rect, Vector2 *position, Texture2D *texture) {
     };
 }
 
-Object *CreateNewBullet(Vector2 *position, Texture2D *texture, Pool *pool) {
-    Object *bullet = pool_alloc(pool);
+Object *CreateNewBullet(Vector2 *position, Texture2D *texture, Allocator *a) {
+    Object *bullet = a->alloc(a, _);
     ASSERT(bullet != NULL);
 
     bullet->position = *position;
@@ -56,13 +56,18 @@ i32 new_random(const u32 MAX) {
     return rand() % MAX + 1;
 }
 
+static void CheckBulletCollision(Object *bullet, Object *enemy) {
+    if (CheckCollisionRecs(bullet->rect, enemy->rect)) {
+    }
+}
+
 /*Updates all bullets in a list, will check for certain conditions*/
-void update_bullets(Object **bullets, Texture2D *texture, Pool *pool) {
+void update_bullets(Object **bullets, Texture2D *texture, Allocator *a) {
     for (i32 i = dynlist_length(bullets) - 1; i >= 0; i--) {
         if (CheckBulletOutOfView(bullets[i])) {
             Object* bullet = bullets[i];
             dynlist_removeat(bullets, i);
-            pool_free(pool, bullet);
+            a->free(a, bullet);
             continue; // Use continue to avoid use after free (UAF)
         }
 

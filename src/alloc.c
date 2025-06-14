@@ -88,16 +88,53 @@ void pool_close(Pool* pool) {
 }
 
 
+/*================c_alloc================*/
+//
 static void *_c_allocator_alloc(Allocator *a, size n) {
     return malloc(n);
 }
 
 static void _c_allocator_free(Allocator *a, void *p) {
     free(p);
-    p = NULL;
 }
 
-void c_allocator_init(Allocator *a) {
-    a->free = _c_allocator_free;
-    a->malloc = _c_allocator_alloc;
+static void *_c_allocator_realloc(Allocator *a, size n) {
+    return realloc(a->ctx, n);
+}
+
+/*================pool_alloc================*/
+//
+static void *_pool_allocator_alloc(Allocator *a, size n) {
+    (void)n;
+    return pool_alloc((Pool *)a->ctx);
+}
+
+static void _pool_allocator_free(Allocator *a, void *ptr) {
+    pool_free((Pool *)a->ctx, ptr);
+}
+
+static bool _pool_allocator_expand(Allocator *a, size n) {
+    return pool_expand((Pool *)a->ctx, n);
+}
+
+static void _pool_alloc_close(Allocator *a) {
+    pool_close((Pool *)a->ctx);
+}
+
+Allocator c_allocator(void) {
+    return (Allocator) {
+        .free = _c_allocator_free,
+        .alloc = _c_allocator_alloc,
+        .realloc = _c_allocator_realloc,
+    };
+}
+
+Allocator pool_allocator(Pool *pool) {
+    return (Allocator) {
+        .ctx = pool,
+        .alloc = _pool_allocator_alloc,
+        .free = _pool_allocator_free,
+        .expand = _pool_allocator_expand,
+        .close = _pool_alloc_close,
+    };
 }
