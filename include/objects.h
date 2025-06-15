@@ -11,19 +11,12 @@ typedef struct Object {
     Rectangle rect;
 } Object;
 
-typedef struct Bullet {
-    u8 texture_id; 
-    Vector2 position;
-    Rectangle rect;
-} Bullet;
-
 void PlayerInput(Object *);
 void UpdateRect(Rectangle *, Vector2 *, Texture2D *);
 Object *CreateNewBullet(Vector2 *, Texture2D *, Allocator *);
-void MoveBullet(Object *, Texture2D *);
-bool CheckBulletOutOfView(Object *);
 Vector2 GetOrigin(Rectangle *, Vector2 *);
 i32 new_random(const u32);
 void update_bullets(Object **, Texture2D *, Allocator *);
+void update_enemies(Object **, Texture2D *, Allocator *);
 Object *CreateNewEnemy(Vector2 *, Texture2D *, Allocator *);
 #endif

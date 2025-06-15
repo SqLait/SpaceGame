@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+#include "types.h"
 #include <raylib.h>
 #define G_WIDTH 1920
 #define G_HEIGHT 1080 
@@ -12,6 +13,7 @@ enum GameState {
 typedef struct {
     enum GameState game_state;   
     bool update_game;
+    f32 delta_time;
 } Game;
 
 void init(void);
