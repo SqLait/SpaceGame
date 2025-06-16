@@ -1,19 +1,38 @@
 {
     "version": 4,
     "cmakeMinimumRequired": {
-        "major": 4,
-        "minor": 0,
-        "patch": 2
+        "major": 3,
+        "minor": 14,
+        "patch": 0
     },
     "configurePresets": [
         {
             "name": "default",
-            "hidden": false,
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin"
             }
+        },
+        {
+            "name": "windows",
+            "binaryDir": "${sourceDir}/build-win",
+            "cacheVariables": {
+                "Wind": "ON",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchain-mingw.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build-win/win-bin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "default",
+            "configurePreset": "default"
+        },
+        {
+            "name": "windows",
+            "configurePreset": "windows"
         }
     ]
 }

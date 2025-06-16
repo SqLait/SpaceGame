@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <limits.h>
-#include <string.h>
+#include <stddef.h>
 
 #define _ 0
 #define ARRLEN(_arr) ((sizeof((_arr))) / ((sizeof((_arr)[0]))))

@@ -1,4 +1,5 @@
 #include "alloc.h"
+#include "debug.h"
 #include "types.h"
 
 Pool *pool_new(size pool_sz) {
@@ -91,10 +92,12 @@ void pool_close(Pool* pool) {
 /*================c_alloc================*/
 //
 static void *_c_allocator_alloc(Allocator *a, size n) {
+    (void)a;
     return malloc(n);
 }
 
 static void _c_allocator_free(Allocator *a, void *p) {
+    (void)a;
     free(p);
 }
 
@@ -120,12 +123,48 @@ static bool _pool_allocator_expand(Allocator *a, size n) {
 static void _pool_alloc_close(Allocator *a) {
     pool_close((Pool *)a->ctx);
 }
+/*================noop_alloc================*/
+//
+static void *_noop_allocator_alloc(Allocator *a, size n) {
+    (void)a;
+    (void)n;
+    DEBUG_LOG("No valid allocator found on this Allocator", a);
+    return NULL;
+}
+
+static void _noop_allocator_free(Allocator *a, void *ptr) {
+    (void)a;
+    (void)ptr;
+    DEBUG_LOG("No valid allocator found on this Allocator", a);
+}
+
+static bool _noop_allocator_expand(Allocator *a, size n) {
+    (void)a;
+    (void)n;
+    DEBUG_LOG("No valid allocator found on this Allocator", a);
+    return NULL;
+}
+
+static void _noop_alloc_close(Allocator *a) {
+    (void)a;
+    DEBUG_LOG("No valid allocator found on this Allocator", a);
+}
+
+static void *_noop_allocator_realloc(Allocator *a, size n) {
+    (void)a;
+    (void)n;
+    DEBUG_LOG("No valid allocator found on this Allocator", a);
+    return NULL;
+}
 
 Allocator c_allocator(void) {
     return (Allocator) {
+        .ctx = NULL,
         .free = _c_allocator_free,
         .alloc = _c_allocator_alloc,
         .realloc = _c_allocator_realloc,
+        .expand = _noop_allocator_expand,
+        .close = _noop_alloc_close,
     };
 }
 
@@ -133,6 +172,7 @@ Allocator pool_allocator(Pool *pool) {
     return (Allocator) {
         .ctx = pool,
         .alloc = _pool_allocator_alloc,
+        .realloc = _noop_allocator_realloc,
         .free = _pool_allocator_free,
         .expand = _pool_allocator_expand,
         .close = _pool_alloc_close,

@@ -67,8 +67,9 @@ void update(void) {
 
     update_bullets(bullets, &textures[1], &bullet_pool);
     update_enemies(enemies, &textures[2], &enemy_pool);
+    CheckBulletCollision(enemies, &enemy_pool, bullets, &bullet_pool);
 
-    if (IsKeyDown(KEY_SPACE) && time_passed >= 2) {
+    if (IsKeyDown(KEY_SPACE) && time_passed >= 1) {
         time_passed = 0;
         Vector2 center = GetOrigin(&player.rect, &player.position);
         Object *bullet = CreateNewBullet(&center, &textures[1], &bullet_pool);
@@ -91,7 +92,6 @@ void draw(void) {
     ClearBackground(LIGHTGRAY);
 
     DrawTexture(textures[player.texture_id], player.position.x, player.position.y, WHITE);
-    DrawRectangleLines(player.rect.x, player.rect.y, player.rect.width, player.rect.height, RED);
 
     for (size i = 0; i < dynlist_length(bullets); i++) {
         DrawTexture(textures[bullets[i]->texture_id], bullets[i]->position.x, bullets[i]->position.y, WHITE);
