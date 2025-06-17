@@ -16,6 +16,8 @@ typedef struct {
     f32 delta_time;
 } Game;
 
+extern Game game;
+
 void init(void);
 void update(void);
 void draw(void);

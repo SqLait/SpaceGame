@@ -67,7 +67,7 @@ void update(void) {
 
     update_bullets(bullets, &textures[1], &bullet_pool);
     update_enemies(enemies, &textures[2], &enemy_pool);
-    CheckBulletCollision(enemies, &enemy_pool, bullets, &bullet_pool);
+    CheckEnemyCollision(enemies, &enemy_pool, bullets, &bullet_pool, &player);
 
     if (IsKeyDown(KEY_SPACE) && time_passed >= 1) {
         time_passed = 0;

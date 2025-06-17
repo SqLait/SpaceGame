@@ -21,7 +21,7 @@
                 "Wind": "ON",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchain-mingw.cmake",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build-win/win-bin"
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build-win/bin"
             }
         }
     ],

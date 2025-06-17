@@ -76,8 +76,15 @@ i32 new_random(const u32 MAX) {
 }
 
 /*I know this is a brute force solution but I don't care*/
-void CheckBulletCollision(Object **enemies, Allocator *a_enemy, Object **bullets, Allocator *a_bullets) {
+void CheckEnemyCollision(Object **enemies, Allocator *a_enemy, Object **bullets, Allocator *a_bullets, Object *player) {
     for (size i = 0; i < dynlist_length(enemies); i++) {
+        if (CheckCollisionRecs(enemies[i]->rect, player->rect)) {
+            Object* enemy = enemies[i];
+            dynlist_removeat(enemies, i);
+            a_enemy->free(a_enemy, enemy);
+            game.game_state = END;
+        }
+
         for (size j = 0; j < dynlist_length(bullets); j++) {
             if (CheckCollisionRecs(enemies[i]->rect, bullets[j]->rect)) {
                 Object* bullet = bullets[j];

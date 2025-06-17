@@ -7,8 +7,11 @@ int main(void) {
     init();
 
     while (!WindowShouldClose()) {
-        update();
-        draw();
+        if (game.game_state == RUNNING) {
+            update();
+            draw();
+        } else if (game.game_state == END)
+            break;
     }
 
     deinit();
